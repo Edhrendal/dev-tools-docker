@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Parameters:
+#   * --php: to specify php version (default: 8.0)
+#   * --dockerBuild: to specify php image docker build (default: alpine3.14)
+#      * `--dockerBuild=` to not use php image docker build
+# ----------------------------------------------------------------------------------------------------------------------
+
+set -eu
+
+# Manage bash parameters
+phpVersion=
+phpDockerBuild=
+phpParameters=
+useDefaultDockerBuild=true
+for arg in "${@}"; do
+    if [ "${arg:0:6}" == "--php=" ]; then
+        phpVersion="${arg:6}"
+    elif [ "${arg:0:14}" == "--dockerBuild=" ]; then
+        phpDockerBuild="${arg:14}"
+        useDefaultDockerBuild=false
+    else
+        phpParameters="${phpParameters} ${arg}"
+    fi
+done
+
+# Set up php docker parameters on bash parameters
+if [ "${phpVersion}" == "" ]; then
+    phpVersion="8.0"
+fi
+if [ $useDefaultDockerBuild == true ]; then
+    phpDockerBuild="alpine3.14"
+fi
+if [ -n "${phpDockerBuild}" ] && [ "${phpDockerBuild:0:1}" != "-" ]; then
+    phpDockerBuild="-${phpDockerBuild}"
+fi
+if [ "${phpVersion}" == "latest" ]; then
+    phpDockerBuild=
+fi
+
+# Docker go!
+echo "PHP ${phpVersion} on Docker image php:${phpVersion}${phpDockerBuild}"
+
+ docker run --rm --interactive --tty \
+   --volume $PWD:/app \
+   --user $(id -u):$(id -g) \
+   "php:${phpVersion}${phpDockerBuild}" ${phpParameters}
