@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+devToolsBinDirectory="$( cd -- "$(dirname "$0")".. >/dev/null 2>&1 ; pwd -P )"
+suggestedAliases=(
+    "alias composer='$devToolsBinDirectory/composer'"
+    "alias php='$devToolsBinDirectory/php'"
+)
+
+for suggestedAlias in "${suggestedAliases[@]}"; do
+    if ! grep -q "$suggestedAlias" ~/.bashrc; then
+        echo "You should add \"$suggestedAlias\" in your ~/.bashrc file."
+    fi
+done
