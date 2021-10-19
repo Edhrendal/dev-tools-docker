@@ -28,6 +28,6 @@ by checking all of them and displaying what aliases are missing.
 
 ```
 > bin/dev/set-up
-You should add "alias composer='/home/bvillena/workspace/dev-tools-docker/composer'" in your ~/.bashrc file.
-You should add "alias php='/home/bvillena/workspace/dev-tools-docker/php'" in your ~/.bashrc file.
+You should add "alias composer='/home/bvillena/workspace/dev-tools-docker/bin/composer'" in your ~/.bashrc file.
+You should add "alias php='/home/bvillena/workspace/dev-tools-docker/bin/php'" in your ~/.bashrc file.
 ```
